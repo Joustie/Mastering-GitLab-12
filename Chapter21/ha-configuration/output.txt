@@ -1,0 +1,327 @@
+{
+  "all": {
+    "hosts": [
+      "dev-20210525113124298500000002-729608641.eu-central-1.elb.amazonaws.com", 
+      "ec2-18-159-146-251.eu-central-1.compute.amazonaws.com", 
+      "ec2-18-195-113-109.eu-central-1.compute.amazonaws.com", 
+      "ip-10-0-1-122.eu-central-1.compute.internal", 
+      "ip-10-0-1-199.eu-central-1.compute.internal", 
+      "ip-10-0-1-97.eu-central-1.compute.internal", 
+      "ip-10-0-11-144.eu-central-1.compute.internal", 
+      "ip-10-0-11-62.eu-central-1.compute.internal", 
+      "ip-10-0-11-76.eu-central-1.compute.internal", 
+      "ip-10-0-11-96.eu-central-1.compute.internal", 
+      "ip-10-0-12-143.eu-central-1.compute.internal", 
+      "ip-10-0-12-156.eu-central-1.compute.internal", 
+      "ip-10-0-12-159.eu-central-1.compute.internal", 
+      "ip-10-0-12-190.eu-central-1.compute.internal", 
+      "ip-10-0-12-200.eu-central-1.compute.internal", 
+      "ip-10-0-12-21.eu-central-1.compute.internal", 
+      "ip-10-0-12-220.eu-central-1.compute.internal", 
+      "ip-10-0-12-225.eu-central-1.compute.internal", 
+      "ip-10-0-12-243.eu-central-1.compute.internal", 
+      "ip-10-0-2-33.eu-central-1.compute.internal", 
+      "ip-10-0-2-53.eu-central-1.compute.internal", 
+      "ip-10-0-2-58.eu-central-1.compute.internal", 
+      "ip-10-0-2-87.eu-central-1.compute.internal"
+    ], 
+    "children": [], 
+    "vars": {}
+  }, 
+  "middleware_asap": {
+    "hosts": [
+      "ip-10-0-12-225.eu-central-1.compute.internal"
+    ], 
+    "children": [], 
+    "vars": {}
+  }, 
+  "frontend": {
+    "hosts": [
+      "ip-10-0-11-76.eu-central-1.compute.internal", 
+      "ip-10-0-12-143.eu-central-1.compute.internal", 
+      "ip-10-0-12-200.eu-central-1.compute.internal"
+    ], 
+    "children": [], 
+    "vars": {}
+  }, 
+  "_meta": {
+    "hostvars": {
+      "ip-10-0-12-159.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-195-113-109.eu-central-1.compute.amazonaws.com\"", 
+        "subnet": "10.0.12.0/24", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.12.197", 
+        "role": "ci_pipeline", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-12-156.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-195-113-109.eu-central-1.compute.amazonaws.com\"", 
+        "subnet": "10.0.12.0/24", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.12.197", 
+        "role": "master", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-11-62.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-159-146-251.eu-central-1.compute.amazonaws.com\"", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.11.184", 
+        "role": "master", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ec2-18-159-146-251.eu-central-1.compute.amazonaws.com": {
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-2-33.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-195-113-109.eu-central-1.compute.amazonaws.com\"", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "proxy": "10.0.12.197", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-12-143.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-195-113-109.eu-central-1.compute.amazonaws.com\"", 
+        "subnet": "10.0.12.0/24", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.12.197", 
+        "role": "slave", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-12-243.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-159-146-251.eu-central-1.compute.amazonaws.com\"", 
+        "subnet": "10.0.11.0/24", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.11.184", 
+        "role": "slave", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-11-144.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-159-146-251.eu-central-1.compute.amazonaws.com\"", 
+        "subnet": "10.0.11.0/24", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.11.184", 
+        "role": "master", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-2-58.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-195-113-109.eu-central-1.compute.amazonaws.com\"", 
+        "subnet": "10.0.2.0/24", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.12.197", 
+        "role": "slave", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-2-87.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-195-113-109.eu-central-1.compute.amazonaws.com\"", 
+        "subnet": "10.0.2.0/24", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.12.197", 
+        "role": "slave", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-11-76.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-159-146-251.eu-central-1.compute.amazonaws.com\"", 
+        "subnet": "10.0.11.0/24", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.11.184", 
+        "role": "master", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-1-199.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-159-146-251.eu-central-1.compute.amazonaws.com\"", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.11.184", 
+        "role": "slave", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-1-122.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-159-146-251.eu-central-1.compute.amazonaws.com\"", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.11.184", 
+        "role": "master", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "dev-20210525113124298500000002-729608641.eu-central-1.elb.amazonaws.com": {
+        "lb_external_url": "dev-20210525113124298500000002-729608641.eu-central-1.elb.amazonaws.com"
+      }, 
+      "ip-10-0-12-200.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-195-113-109.eu-central-1.compute.amazonaws.com\"", 
+        "subnet": "10.0.12.0/24", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.12.197", 
+        "role": "slave", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-1-97.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-159-146-251.eu-central-1.compute.amazonaws.com\"", 
+        "subnet": "10.0.1.0/24", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.11.184", 
+        "role": "master", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-2-53.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-195-113-109.eu-central-1.compute.amazonaws.com\"", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.12.197", 
+        "role": "slave", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ec2-18-195-113-109.eu-central-1.compute.amazonaws.com": {
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-12-225.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-195-113-109.eu-central-1.compute.amazonaws.com\"", 
+        "subnet": "10.0.12.0/24", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.12.197", 
+        "role": "asap", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-12-21.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-195-113-109.eu-central-1.compute.amazonaws.com\"", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.12.197", 
+        "role": "slave", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-12-220.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-195-113-109.eu-central-1.compute.amazonaws.com\"", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.12.197", 
+        "role": "slave", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-12-190.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-159-146-251.eu-central-1.compute.amazonaws.com\"", 
+        "subnet": "10.0.11.0/24", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.11.184", 
+        "role": "slave", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }, 
+      "ip-10-0-11-96.eu-central-1.compute.internal": {
+        "ansible_ssh_common_args": " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@ec2-18-159-146-251.eu-central-1.compute.amazonaws.com\"", 
+        "subnet": "10.0.11.0/24", 
+        "ansible_ssh_private_key_file": "/tmp/mykey.pem", 
+        "proxy": "10.0.11.184", 
+        "role": "all", 
+        "ansible_python_interpreter": "/usr/bin/python3", 
+        "ansible_user": "ubuntu"
+      }
+    }
+  }, 
+  "pgbouncer": {
+    "hosts": [
+      "ip-10-0-2-33.eu-central-1.compute.internal"
+    ], 
+    "children": [], 
+    "vars": {}
+  }, 
+  "redis": {
+    "hosts": [
+      "ip-10-0-11-62.eu-central-1.compute.internal", 
+      "ip-10-0-12-21.eu-central-1.compute.internal", 
+      "ip-10-0-12-220.eu-central-1.compute.internal"
+    ], 
+    "children": [], 
+    "vars": {}
+  }, 
+  "consul": {
+    "hosts": [
+      "ip-10-0-1-122.eu-central-1.compute.internal", 
+      "ip-10-0-1-199.eu-central-1.compute.internal", 
+      "ip-10-0-2-53.eu-central-1.compute.internal"
+    ], 
+    "children": [], 
+    "vars": {}
+  }, 
+  "db": {
+    "hosts": [
+      "ip-10-0-1-97.eu-central-1.compute.internal", 
+      "ip-10-0-2-58.eu-central-1.compute.internal", 
+      "ip-10-0-2-87.eu-central-1.compute.internal"
+    ], 
+    "children": [], 
+    "vars": {}
+  }, 
+  "middleware_realtime": {
+    "hosts": [
+      "ip-10-0-12-156.eu-central-1.compute.internal"
+    ], 
+    "children": [], 
+    "vars": {}
+  }, 
+  "gitaly": {
+    "hosts": [
+      "ip-10-0-11-144.eu-central-1.compute.internal"
+    ], 
+    "children": [], 
+    "vars": {}
+  }, 
+  "middleware_pipeline": {
+    "hosts": [
+      "ip-10-0-12-159.eu-central-1.compute.internal"
+    ], 
+    "children": [], 
+    "vars": {}
+  }, 
+  "monitoring-server": {
+    "hosts": [
+      "ip-10-0-12-243.eu-central-1.compute.internal"
+    ], 
+    "children": [], 
+    "vars": {}
+  }, 
+  "lb": {
+    "hosts": [
+      "dev-20210525113124298500000002-729608641.eu-central-1.elb.amazonaws.com"
+    ], 
+    "children": [], 
+    "vars": {}
+  }, 
+  "security": {
+    "hosts": [
+      "ec2-18-159-146-251.eu-central-1.compute.amazonaws.com", 
+      "ec2-18-195-113-109.eu-central-1.compute.amazonaws.com"
+    ], 
+    "children": [], 
+    "vars": {}
+  }, 
+  "monitoring-dashboard": {
+    "hosts": [
+      "ip-10-0-12-190.eu-central-1.compute.internal"
+    ], 
+    "children": [], 
+    "vars": {}
+  }, 
+  "middleware": {
+    "hosts": [
+      "ip-10-0-11-96.eu-central-1.compute.internal"
+    ], 
+    "children": [], 
+    "vars": {}
+  }
+}

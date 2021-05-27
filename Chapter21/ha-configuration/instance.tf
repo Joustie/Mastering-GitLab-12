@@ -4,7 +4,7 @@ resource "aws_instance" "FRONTEND_A" {
     key_name = "${aws_key_pair.keypair.key_name}"
     vpc_security_group_ids = ["${aws_security_group.SG-frontendservers.id}"]
     instance_type = "t2.medium"
-    tags {
+    tags = {
         Name = "${var.environment}-FRONTEND001"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -16,7 +16,7 @@ resource "aws_instance" "FRONTEND_B" {
     key_name = "${aws_key_pair.keypair.key_name}"
     vpc_security_group_ids = ["${aws_security_group.SG-frontendservers.id}"]
     instance_type = "t2.medium"
-    tags {
+    tags = {
         Name = "${var.environment}-FRONTEND002"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -29,7 +29,7 @@ resource "aws_instance" "FRONTEND_C" {
     key_name = "${aws_key_pair.keypair.key_name}"
     vpc_security_group_ids = ["${aws_security_group.SG-frontendservers.id}"]
     instance_type = "t2.medium"
-    tags {
+    tags = {
         Name = "${var.environment}-FRONTEND003"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -39,7 +39,7 @@ resource "aws_instance" "FRONTEND_C" {
 resource "aws_instance" "SIDEKIQ_A" {
     ami = "${lookup(var.aws_ubuntu_amis,var.region)}"
     instance_type = "t2.medium"
-    tags {
+    tags = {
         Name = "${var.environment}-SIDEKIQ001"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -50,8 +50,8 @@ resource "aws_instance" "SIDEKIQ_A" {
 }
 resource "aws_instance" "SIDEKIQ_B" {
     ami = "${lookup(var.aws_ubuntu_amis,var.region)}"
-    instance_type = "t2.micro"
-    tags {
+    instance_type = "t2.medium"
+    tags = {
         Name = "${var.environment}-SIDEKIQ002"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -63,8 +63,8 @@ resource "aws_instance" "SIDEKIQ_B" {
 
 resource "aws_instance" "SIDEKIQ_C" {
     ami = "${lookup(var.aws_ubuntu_amis,var.region)}"
-    instance_type = "t2.micro"
-    tags {
+    instance_type = "t2.medium"
+    tags = {
         Name = "${var.environment}-SIDEKIQ003"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -76,8 +76,8 @@ resource "aws_instance" "SIDEKIQ_C" {
 
 resource "aws_instance" "SIDEKIQ_D" {
     ami = "${lookup(var.aws_ubuntu_amis,var.region)}"
-    instance_type = "t2.micro"
-    tags {
+    instance_type = "t2.medium"
+    tags = {
         Name = "${var.environment}-SIDEKIQ004"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -90,7 +90,7 @@ resource "aws_instance" "SIDEKIQ_D" {
 resource "aws_instance" "GRAFANA_A" {
     ami = "${lookup(var.aws_ubuntu_amis,var.region)}"
     instance_type = "t2.medium"
-    tags {
+    tags = {
         Name = "${var.environment}-GRAFANA001"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -103,7 +103,7 @@ resource "aws_instance" "GRAFANA_A" {
 resource "aws_instance" "PROMETHEUS_A" {
     ami = "${lookup(var.aws_ubuntu_amis,var.region)}"
     instance_type = "t2.medium"
-    tags {
+    tags = {
         Name = "${var.environment}-PROMETHEUS001"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -119,7 +119,7 @@ resource "aws_instance" "BASTIONHOST_A" {
     subnet_id = "${aws_subnet.public-frontend_az-a.id}"
     key_name = "${aws_key_pair.keypair.key_name}"
     vpc_security_group_ids = ["${aws_security_group.SG-bastionhosts.id}"]
-    tags {
+    tags = {
         Name = "${var.environment}-BASTION001"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -132,7 +132,7 @@ resource "aws_instance" "BASTIONHOST_B" {
     subnet_id = "${aws_subnet.public-frontend_az-b.id}"
     key_name = "${aws_key_pair.keypair.key_name}"
     vpc_security_group_ids = ["${aws_security_group.SG-bastionhosts.id}"]
-    tags {
+    tags = {
         Name = "${var.environment}-BASTION002"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -145,7 +145,7 @@ resource "aws_instance" "SQL_A" {
     subnet_id = "${aws_subnet.public-backend-az-a.id}"
     key_name = "${aws_key_pair.keypair.key_name}"
     vpc_security_group_ids = ["${aws_security_group.SG-backendservers.id}"]
-    tags {
+    tags = {
         Name = "${var.environment}-SQL001"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -155,7 +155,7 @@ resource "aws_instance" "SQL_A" {
 resource "aws_instance" "SQL_B" {
     ami = "${lookup(var.aws_ubuntu_amis,var.region)}"
     instance_type = "t2.large"
-    tags {
+    tags = {
         Name = "${var.environment}-SQL002"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -171,7 +171,7 @@ resource "aws_instance" "SQL_C" {
     subnet_id = "${aws_subnet.public-backend-az-b.id}"
     key_name = "${aws_key_pair.keypair.key_name}"
     vpc_security_group_ids = ["${aws_security_group.SG-backendservers.id}"]
-    tags {
+    tags = {
         Name = "${var.environment}-SQL003"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -184,7 +184,7 @@ resource "aws_instance" "REDIS_A" {
     subnet_id = "${aws_subnet.public-frontend_az-a.id}"
     key_name = "${aws_key_pair.keypair.key_name}"
     vpc_security_group_ids = ["${aws_security_group.SG-frontendservers.id}"]
-    tags {
+    tags = {
         Name = "${var.environment}-REDIS001"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -197,7 +197,7 @@ resource "aws_instance" "REDIS_B" {
     vpc_security_group_ids = ["${aws_security_group.SG-frontendservers.id}"]
     ami = "${lookup(var.aws_ubuntu_amis,var.region)}"
     instance_type = "t2.micro"
-    tags {
+    tags = {
         Name = "${var.environment}-REDIS002"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -210,7 +210,7 @@ resource "aws_instance" "REDIS_C" {
     vpc_security_group_ids = ["${aws_security_group.SG-frontendservers.id}"]
     ami = "${lookup(var.aws_ubuntu_amis,var.region)}"
     instance_type = "t2.micro"
-    tags {
+    tags = {
         Name = "${var.environment}-REDIS003"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -223,7 +223,7 @@ resource "aws_instance" "CONSUL_A" {
     subnet_id = "${aws_subnet.public-backend-az-a.id}"
     key_name = "${aws_key_pair.keypair.key_name}"
     vpc_security_group_ids = ["${aws_security_group.SG-backendservers.id}"]
-    tags {
+    tags = {
         Name = "${var.environment}-CONSUL001"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -236,7 +236,7 @@ resource "aws_instance" "CONSUL_B" {
     subnet_id = "${aws_subnet.public-backend-az-a.id}"
     key_name = "${aws_key_pair.keypair.key_name}"
     vpc_security_group_ids = ["${aws_security_group.SG-backendservers.id}"]
-    tags {
+    tags = {
         Name = "${var.environment}-CONSUL002"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -249,7 +249,7 @@ resource "aws_instance" "CONSUL_C" {
     subnet_id = "${aws_subnet.public-backend-az-b.id}"
     key_name = "${aws_key_pair.keypair.key_name}"
     vpc_security_group_ids = ["${aws_security_group.SG-backendservers.id}"]
-    tags {
+    tags = {
         Name = "${var.environment}-CONSUL003"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -262,7 +262,7 @@ resource "aws_instance" "PGBOUNCER_A" {
     subnet_id = "${aws_subnet.public-backend-az-b.id}"
     key_name = "${aws_key_pair.keypair.key_name}"
     vpc_security_group_ids = ["${aws_security_group.SG-backendservers.id}"]
-    tags {
+    tags = {
         Name = "${var.environment}-PGBOUNCER001"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
@@ -275,7 +275,7 @@ resource "aws_instance" "GITALY_A" {
     subnet_id = "${aws_subnet.public-frontend_az-a.id}"
     key_name = "${aws_key_pair.keypair.key_name}"
     vpc_security_group_ids = ["${aws_security_group.SG-frontendservers.id}"]
-    tags {
+    tags = {
         Name = "${var.environment}-GITALY001"
         Environment = "${var.environment}"
         sshUser = "ubuntu"

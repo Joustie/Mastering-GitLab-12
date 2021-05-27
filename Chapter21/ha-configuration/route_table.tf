@@ -6,7 +6,7 @@ resource "aws_route_table" "default" {
       gateway_id = "${aws_internet_gateway.internet_gateway.id}" 
   }
 
-  tags {
+  tags = {
       Name = "Default route table"
   }
 }

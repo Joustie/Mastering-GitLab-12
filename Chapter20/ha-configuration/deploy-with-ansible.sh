@@ -6,7 +6,7 @@ terraform apply --auto-approve
 
 sleep 120
 
-terraform output  -json|jq .private_key.value -r >/tmp/privkey.pem && chmod 600 /tmp/privkey.pem
+terraform output  -json|jq .private_key.value -r >/tmp/mykey.pem && chmod 600 /tmp/mykey.pem
 
 export ANSIBLE_HOST_KEY_CHECKING=false
 . new_window.sh
