@@ -21,4 +21,4 @@ ansible-playbook -i /usr/local/bin/terraform.py deploy/install-sidekiq-asap.yml 
 ansible-playbook -i /usr/local/bin/terraform.py deploy/install-sidekiq-pipeline.yml && \
 ansible-playbook -i /usr/local/bin/terraform.py deploy/install-sidekiq-realtime.yml && \
 ansible-playbook -i /usr/local/bin/terraform.py deploy/install-frontend-services.yml && \
-ansible-playbook -i /usr/local/bin/terraform.py deploy/install-grafana-dashboard.yml 
+ansible-playbook -i /usr/local/bin/terraform.py deploy/install-monitoring.yml

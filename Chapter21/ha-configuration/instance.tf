@@ -87,24 +87,11 @@ resource "aws_instance" "SIDEKIQ_D" {
     vpc_security_group_ids = ["${aws_security_group.SG-frontendservers.id}"]
 }
 
-resource "aws_instance" "GRAFANA_A" {
+resource "aws_instance" "MONITORING_A" {
     ami = "${lookup(var.aws_ubuntu_amis,var.region)}"
     instance_type = "t2.medium"
     tags = {
-        Name = "${var.environment}-GRAFANA001"
-        Environment = "${var.environment}"
-        sshUser = "ubuntu"
-    }
-    subnet_id = "${aws_subnet.public-frontend_az-b.id}"
-    key_name = "${aws_key_pair.keypair.key_name}"
-    vpc_security_group_ids = ["${aws_security_group.SG-frontendservers.id}"]
-}
-
-resource "aws_instance" "PROMETHEUS_A" {
-    ami = "${lookup(var.aws_ubuntu_amis,var.region)}"
-    instance_type = "t2.medium"
-    tags = {
-        Name = "${var.environment}-PROMETHEUS001"
+        Name = "${var.environment}-MONITORING001"
         Environment = "${var.environment}"
         sshUser = "ubuntu"
     }

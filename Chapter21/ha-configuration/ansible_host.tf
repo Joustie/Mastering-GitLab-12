@@ -117,8 +117,8 @@ resource "ansible_host" "SIDEKIQ004" {
 }
 
 
-resource "ansible_host" "GRAFANA001" {
-  inventory_hostname = "${aws_instance.GRAFANA_A.private_dns}"
+resource "ansible_host" "MONITORING001" {
+  inventory_hostname = "${aws_instance.MONITORING_A.private_dns}"
   groups = ["monitoring-dashboard"]
   vars = {
       ansible_user = "ubuntu"
@@ -130,22 +130,6 @@ resource "ansible_host" "GRAFANA001" {
       subnet = "${aws_subnet.public-frontend_az-a.cidr_block}"
   }
 }
-
-resource "ansible_host" "PROMETHEUS001" {
-  inventory_hostname = "${aws_instance.PROMETHEUS_A.private_dns}"
-  groups = ["monitoring-server"]
-  vars = {
-      ansible_user = "ubuntu"
-      role = "slave"
-      ansible_ssh_private_key_file="/tmp/mykey.pem"
-      ansible_python_interpreter="/usr/bin/python3"
-      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOST_A.public_dns}\""
-      proxy = "${aws_instance.BASTIONHOST_A.private_ip}"
-      subnet = "${aws_subnet.public-frontend_az-a.cidr_block}"
-  }
-}
-
-
 
 resource "ansible_host" "SQL001" {
   inventory_hostname = "${aws_instance.SQL_A.private_dns}"
@@ -227,7 +211,6 @@ resource "ansible_host" "REDIS003" {
       proxy = "${aws_instance.BASTIONHOST_B.private_ip}"
   }
 }
-
 
 resource "ansible_host" "CONSUL001" {
   inventory_hostname = "${aws_instance.CONSUL_A.private_dns}"

@@ -31,9 +31,9 @@
         group: root
         mode: 0600
 
-    - name: Place GitLab omnibus configuration file with grafana role
+    - name: Place GitLab omnibus configuration file with monitoring role
       template:
-        src: gitlab.rb.grafana.j2
+        src: gitlab.rb.monitoring.j2
         dest: /etc/gitlab/gitlab.rb
         owner: root
         group: root

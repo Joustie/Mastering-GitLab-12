@@ -1,0 +1,40 @@
+## The URL of your GitLab instance
+external_url 'http://{{ hostvars[groups['lb'][0]]['inventory_hostname'] }}'
+
+# Disable all other services
+alertmanager['enable'] = false
+gitaly['enable'] = false
+gitlab_exporter['enable'] = false
+gitlab_workhorse['enable'] = false
+nginx['enable'] = true
+postgres_exporter['enable'] = false
+postgresql['enable'] = false
+redis['enable'] = false
+redis_exporter['enable'] = false
+sidekiq['enable'] = false
+puma['enable'] = false
+unicorn['enable'] = false
+node_exporter['enable'] = false
+gitlab_exporter['enable'] = false
+
+# Enable Prometheus
+prometheus['enable'] = true
+prometheus['listen_address'] = '0.0.0.0:9090'
+prometheus['monitor_kubernetes'] = false
+
+# Enable Login form
+grafana['disable_login_form'] = false
+
+# Enable Grafana
+grafana['enable'] = true
+grafana['admin_password'] = 'somesecretABC123'
+
+# Enable service discovery for Prometheus
+consul['enable'] = true
+consul['monitoring_service_discovery'] =  true
+consul['configuration'] = {
+   retry_join: %w({{ hostvars[groups['consul'][0]]['inventory_hostname'] }}  {{ hostvars[groups['consul'][1]]['inventory_hostname'] }} )
+}
+
+# Prevent database migrations from running on upgrade automatically
+gitlab_rails['auto_migrate'] = false

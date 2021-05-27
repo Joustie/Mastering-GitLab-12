@@ -28,7 +28,7 @@ cluster_hosts=( ["bastion0"]=`echo $inventory | jq '.security.hosts[0]'` \
 ["cs2"]=`echo $inventory | jq '.consul.hosts[2]'` \
 ["pg0"]=`echo $inventory | jq '.pgbouncer.hosts[0]'` \
 ["gitaly0"]=`echo $inventory | jq '.gitaly.hosts[0]'` \
-["grafana0"]=`echo $inventory | jq '.monitoring-dashboard.hosts[0]'`) 
+["monitoring0"]=`echo $inventory | jq '.monitoring.hosts[0]'`)
 
 function connect_to_host  {
 
@@ -40,19 +40,19 @@ function connect_to_host  {
 
     if [[ $platform == "linux" ]]
     then
-          #If host is a bastion host we use a different connection method 
+          #If host is a bastion host we use a different connection method
         if [[ $host_code =~ ^bastion[0-9]+$ ]]
         then
-            screen ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem ubuntu@$ssh_host -t "echo "PS1=$host_code"$"">>~/.bashrc;bash" 
+            screen ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem ubuntu@$ssh_host -t "echo "PS1=$host_code"$"">>~/.bashrc;bash"
         else
             screen ssh -i /tmp/mykey.pem ubuntu@"$ssh_host" -o StrictHostKeyChecking=no -o ProxyCommand="ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem   -W %h:%p -q ubuntu@"${cluster_hosts['bastion1']}"" -t "echo "PS1=$host_code"$"">>~/.bashrc;bash"
         fi
     else
 
-        #If host is a bastion host we use a different connection method 
+        #If host is a bastion host we use a different connection method
         if [[ $host_code =~ ^bastion[0-9]+$ ]]
         then
-           
+
             new_window "ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem ubuntu@$ssh_host -t \"echo \"PS1=$host_code\"$\"\">>~/.bashrc;bash\" "
 
         else
@@ -65,7 +65,7 @@ function connect_to_host  {
 
 }
 
-# Main 
+# Main
 
 # Usage if no args
 if [[ $# -eq 0 ]] ; then
