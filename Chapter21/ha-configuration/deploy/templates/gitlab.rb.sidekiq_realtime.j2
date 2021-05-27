@@ -1,7 +1,7 @@
 sidekiq_cluster['enable'] = true
 sidekiq_cluster['ha'] = true
 sidekiq_cluster['max_concurrency'] = 15 # The maximum number of threads each Sidekiq process should run
- 
+
 gitlab_rails['internal_api_url'] = "http://{{ hostvars[groups['frontend'][0]]['inventory_hostname'] }}:8080"
 
 sidekiq_cluster['queue_groups'] = [
@@ -27,7 +27,6 @@ grafana['enable'] = false
 git_data_dirs({
   'default' => { 'path' => '/var/opt/gitlab/git-data','gitaly_address' => 'tcp://{{ hostvars[groups['gitaly'][0]]['inventory_hostname'] }}:8075' }
 })
-gitlab_rails['gitaly_token'] = 'abc123secret'
 
 # PostgreSQL connection attributes
 gitlab_rails['db_adapter'] = 'postgresql'

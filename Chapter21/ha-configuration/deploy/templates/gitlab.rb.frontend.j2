@@ -20,7 +20,6 @@ gitlab_rails['gitaly_token'] = 'abc123secret'
 git_data_dirs({
  'default' => { 'path' => '/var/opt/gitlab/git-data','gitaly_address' => 'tcp://{{ hostvars[groups['gitaly'][0]]['inventory_hostname'] }}:8075' }
 })
-gitlab_rails['gitaly_token'] = 'abc123secret'
 gitaly['enable'] = false
 
  # Redis connection details
@@ -36,8 +35,8 @@ web_server['gid'] = 9001
 registry['uid'] = 9002
 registry['gid'] = 9002
 
-#Don't run migrations 
+#Don't run migrations
 gitlab_rails['auto_migrate'] = false
- 
+
 #disable letsencrypt for demo purposes
 letsencrypt['enable'] = false

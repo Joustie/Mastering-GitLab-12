@@ -23,7 +23,6 @@ grafana['enable'] = false
 git_data_dirs({
   'default' => { 'path' => '/var/opt/gitlab/git-data','gitaly_address' => 'tcp://{{ hostvars[groups['gitaly'][0]]['inventory_hostname'] }}:8075' }
 })
-gitlab_rails['gitaly_token'] = 'abc123secret'
 
 # PostgreSQL connection attributes
 gitlab_rails['db_adapter'] = 'postgresql'

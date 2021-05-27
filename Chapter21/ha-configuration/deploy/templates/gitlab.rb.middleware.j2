@@ -24,8 +24,6 @@ gitlab_monitor['enable'] = false
 git_data_dirs({
   'default' => { 'path' => '/var/opt/gitlab/git-data','gitaly_address' => 'tcp://{{ hostvars[groups['gitaly'][0]]['inventory_hostname'] }}:8075' }
 })
-gitlab_rails['gitaly_token'] = 'abc123secret'
- 
 
 # PostgreSQL connection attributes
 gitlab_rails['db_adapter'] = 'postgresql'
@@ -48,7 +46,7 @@ registry['uid'] = 9002
 registry['gid'] = 9002
 
 {% if hostvars[inventory_hostname].role == "slave"  %}
- 
+
 gitlab_rails['initial_root_password'] = "packtpub"
 
 

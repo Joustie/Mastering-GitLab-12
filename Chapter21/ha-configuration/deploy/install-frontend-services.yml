@@ -11,6 +11,12 @@
       ftp_proxy: http://{{ hostvars[inventory_hostname].proxy }}:3128
   environment: "{{ proxy_env }} "
   tasks :
+
+    - name: Modify /etc/environment
+      lineinfile:
+        path: /etc/environment
+        line: LC_ALL="en_US.UTF-8"
+
     - name: Install Aptitude
       apt:
         update_cache: yes
@@ -35,7 +41,7 @@
       async: 0
       poll: 0
       when: task_result is changed
- 
+
     - name: Wait for the reboot to complete if there was a change.
       wait_for_connection:
         connect_timeout: 30
@@ -50,7 +56,7 @@
 
     - name: Add gitlab pkg repo
       shell: 'curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | bash'
-      
+
     - name: Creates gitlab config directory
       file:
         path: /etc/gitlab
@@ -58,7 +64,7 @@
         owner: root
         group: root
         mode: 0600
-      
+
     - name: Place GitLab omnibus configuration file
       template:
         src: gitlab.rb.frontend.j2
@@ -69,12 +75,12 @@
 
     - name: Disable automigrations
       shell: touch /etc/gitlab/skip-auto-reconfigure
-       
-    - name: Install gitlab omnibus 
+
+    - name: Install gitlab omnibus
       apt: name={{item}} state=present
       with_items:
-        - gitlab-ee=12.0.0-ee.0 
-      
+        - gitlab-ee=12.0.0-ee.0
+
     - name: Transfer generated secrets from first appserver
       copy:
         src: /tmp/gitlab-secrets.json
@@ -86,11 +92,10 @@
 
     - name: Active changes
       shell: "gitlab-ctl reconfigure"
-   
+
     - name: Pause for 1 minute to give reconfigure time
       pause:
         minutes: 1
 
     - name: Restart services
       shell: "gitlab-ctl restart"
-      

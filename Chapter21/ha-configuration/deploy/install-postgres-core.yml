@@ -14,32 +14,6 @@
       apt:
         name: aptitude
 
-
-    # - name: Full update Ubuntu
-    #   apt:
-    #     upgrade: full
-    #   register: task_result
-
-    # - name: Install list of packages
-    #   apt: name={{item}} state=installed
-    #   with_items:
-    #     - curl
-    #     - openssh-server
-    #     - ca-certificates
-    #     - postfix
-
-    # - name: (reboot) Reboot triggered
-    #   command: /sbin/shutdown -r +1 "Ansible-triggered Reboot"
-    #   async: 0
-    #   poll: 0
-    #   when: task_result is changed
- 
-    # - name: Wait for the reboot to complete if there was a change.
-    #   wait_for_connection:
-    #     connect_timeout: 30
-    #     sleep: 60
-    #     delay: 120
-    #   when: task_result is changed
     - name: Modify /etc/environment
       lineinfile:
         path: /etc/environment
@@ -48,18 +22,18 @@
     - name: Modify share mem parms
       lineinfile:
           path: /etc/sysctl.conf
-          line: > 
+          line: >
             kernel.sem = 250 32000 32 262
             kernel.shmall = 4194304
             kernel.shmmax = 17179869184
 
     - name: Activate params
       shell:
-        cmd: "cat /etc/sysctl.conf /etc/sysctl.d/*.conf  | sysctl -e -p -" 
+        cmd: "cat /etc/sysctl.conf /etc/sysctl.d/*.conf  | sysctl -e -p -"
 
     - name: Add gitlab pkg repo
       shell: 'curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | bash'
-      
+
     - name: Creates directory
       file:
         path: /etc/gitlab
@@ -67,7 +41,7 @@
         owner: root
         group: root
         mode: 0600
-    
+
     - name: Place GitLab omnibus configuration file with Postgres Role
       template:
         src: gitlab.rb.postgres.j2
@@ -76,10 +50,10 @@
         group: root
         mode: 0600
 
-    - name: Install gitlab omnibus 
+    - name: Install gitlab omnibus
       apt: name={{item}} state=present
       with_items:
-        - gitlab-ee=12.0.0-ee.0 
+        - gitlab-ee=12.0.0-ee.0
 
     - name: Activate changes
       shell: "LANGUAGE=en_US.UTF-8;LANGUAGE=en_US.UTF-8;gitlab-ctl reconfigure"
