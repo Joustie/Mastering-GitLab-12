@@ -4,6 +4,8 @@
   become: yes
   become_user: root
   tasks :
+
     - name: init database slave
       shell: "gitlab-ctl repmgr standby setup {{ hostvars[groups['db'][0]]['inventory_hostname'] }} -w"
       when : hostvars[inventory_hostname].role == "slave"
+      

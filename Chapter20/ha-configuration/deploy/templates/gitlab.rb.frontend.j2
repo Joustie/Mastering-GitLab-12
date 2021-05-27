@@ -16,17 +16,15 @@ gitlab_rails['db_host'] =  '{{ hostvars[groups['pgbouncer'][0]]['inventory_hostn
 gitlab_rails['db_port'] = 6432
 
 # Gitaly
-gitlab_rails['gitaly_token'] = 'abc123secret'
 git_data_dirs({
  'default' => { 'path' => '/var/opt/gitlab/git-data','gitaly_address' => 'tcp://{{ hostvars[groups['gitaly'][0]]['inventory_hostname'] }}:8075' }
 })
-gitlab_rails['gitaly_token'] = 'abc123secret'
 gitaly['enable'] = false
 
- # Redis connection details
- gitlab_rails['redis_port'] = '6379'
- gitlab_rails['redis_host'] = '{{ hostvars[groups['redis'][0]]['inventory_hostname'] }}' # IP/hostname of Redis server
- gitlab_rails['redis_password'] = 'packtpub'
+# Redis connection details
+gitlab_rails['redis_port'] = '6379'
+gitlab_rails['redis_host'] = '{{ hostvars[groups['redis'][0]]['inventory_hostname'] }}' # IP/hostname of Redis server
+gitlab_rails['redis_password'] = 'packtpub'
 
 # Ensure UIDs and GIDs match between servers for permissions via shared filesystem
 user['uid'] = 9000
@@ -36,8 +34,8 @@ web_server['gid'] = 9001
 registry['uid'] = 9002
 registry['gid'] = 9002
 
-#Don't run migrations 
+#Don't run migrations
 gitlab_rails['auto_migrate'] = false
- 
+
 #disable letsencrypt for demo purposes
 letsencrypt['enable'] = false

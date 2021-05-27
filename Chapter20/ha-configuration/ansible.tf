@@ -3,7 +3,7 @@ resource "ansible_host" "BASTIONHOSTA" {
   groups = ["security"]
   vars = {
       ansible_user = "ubuntu"
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
       ansible_python_interpreter="/usr/bin/python3"
   }
 }
@@ -13,8 +13,36 @@ resource "ansible_host" "BASTIONHOSTB" {
   groups = ["security"]
   vars = {
       ansible_user = "ubuntu"
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
       ansible_python_interpreter="/usr/bin/python3"
+  }
+}
+
+resource "ansible_host" "BACKEND001" {
+  inventory_hostname = "${aws_instance.BACKENDA.private_dns}"
+  groups = ["backend"]
+  vars = {
+      ansible_user = "ubuntu"
+      role = "master"
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
+      ansible_python_interpreter="/usr/bin/python3"
+      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTA.public_dns}\""
+      proxy = "${aws_instance.BASTIONHOSTA.private_ip}"
+      subnet = "${aws_subnet.pub-web-az-a.cidr_block}"
+  }
+}
+
+resource "ansible_host" "BACKEND002" {
+  inventory_hostname = "${aws_instance.BACKENDB.private_dns}"
+  groups = ["backend"]
+  vars = {
+      ansible_user = "ubuntu"
+      role = "slave"
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
+      ansible_python_interpreter="/usr/bin/python3"
+      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTB.public_dns}\""
+      proxy = "${aws_instance.BASTIONHOSTB.private_ip}"
+      subnet = "${aws_subnet.pub-web-az-b.cidr_block}"
   }
 }
 
@@ -24,9 +52,9 @@ resource "ansible_host" "FRONTEND001" {
   vars = {
       ansible_user = "ubuntu"
       role = "slave"
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
       ansible_python_interpreter="/usr/bin/python3"
-      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/privkey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTA.public_dns}\""
+      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTA.public_dns}\""
       proxy = "${aws_instance.BASTIONHOSTA.private_ip}"
       subnet = "${aws_subnet.pub-web-az-a.cidr_block}"
   }
@@ -38,40 +66,11 @@ resource "ansible_host" "FRONTEND002" {
   vars = {
       ansible_user = "ubuntu"
       role = "slave"
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
       ansible_python_interpreter="/usr/bin/python3"
-      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/privkey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTB.public_dns}\""
+      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTB.public_dns}\""
       proxy = "${aws_instance.BASTIONHOSTB.private_ip}"
       subnet = "${aws_subnet.pub-web-az-b.cidr_block}"
-  }
-}
-
-
-resource "ansible_host" "BACKEND002" {
-  inventory_hostname = "${aws_instance.BACKENDB.private_dns}"
-  groups = ["backend"]
-  vars = {
-      ansible_user = "ubuntu"
-      role = "master"
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
-      ansible_python_interpreter="/usr/bin/python3"
-      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/privkey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTB.public_dns}\""
-      proxy = "${aws_instance.BASTIONHOSTB.private_ip}"
-      subnet = "${aws_subnet.pub-web-az-b.cidr_block}"
-  }
-}
-
-resource "ansible_host" "BACKEND001" {
-  inventory_hostname = "${aws_instance.BACKENDA.private_dns}"
-  groups = ["backend"]
-  vars = {
-      ansible_user = "ubuntu"
-      role = "slave"
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
-      ansible_python_interpreter="/usr/bin/python3"
-      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/privkey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTA.public_dns}\""
-      proxy = "${aws_instance.BASTIONHOSTA.private_ip}"
-      subnet = "${aws_subnet.pub-web-az-a.cidr_block}"
   }
 }
 
@@ -81,8 +80,8 @@ resource "ansible_host" "SQL001" {
   vars = {
       ansible_user = "ubuntu"
       role = "master"
-      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/privkey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTA.public_dns}\""
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
+      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTA.public_dns}\""
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
       ansible_python_interpreter="/usr/bin/python3"
       proxy = "${aws_instance.BASTIONHOSTA.private_ip}"
       subnet = "${aws_subnet.priv-db-az-a.cidr_block}"
@@ -95,8 +94,8 @@ resource "ansible_host" "SQL002" {
   vars = {
       ansible_user = "ubuntu"
       role = "slave"
-      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/privkey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTB.public_dns}\""
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
+      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTB.public_dns}\""
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
       ansible_python_interpreter="/usr/bin/python3"
       proxy = "${aws_instance.BASTIONHOSTB.private_ip}"
       subnet = "${aws_subnet.priv-db-az-b.cidr_block}"
@@ -109,8 +108,8 @@ resource "ansible_host" "SQL003" {
   vars = {
       ansible_user = "ubuntu"
        role = "slave"
-      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/privkey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTB.public_dns}\""
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
+      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTB.public_dns}\""
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
       ansible_python_interpreter="/usr/bin/python3"
       proxy = "${aws_instance.BASTIONHOSTB.private_ip}"
       subnet = "${aws_subnet.priv-db-az-b.cidr_block}"
@@ -123,8 +122,8 @@ resource "ansible_host" "REDIS001" {
   vars = {
       ansible_user = "ubuntu"
       role = "master"
-      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/privkey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTA.public_dns}\""
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
+      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTA.public_dns}\""
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
       ansible_python_interpreter="/usr/bin/python3"
       proxy = "${aws_instance.BASTIONHOSTA.private_ip}"
   }
@@ -136,8 +135,8 @@ resource "ansible_host" "REDIS002" {
   vars = {
       ansible_user = "ubuntu"
       role = "slave"
-      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/privkey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTB.public_dns}\""
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
+      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTB.public_dns}\""
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
       ansible_python_interpreter="/usr/bin/python3"
       proxy = "${aws_instance.BASTIONHOSTB.private_ip}"
   }
@@ -149,8 +148,8 @@ resource "ansible_host" "CONSUL001" {
   vars ={
       ansible_user = "ubuntu"
       role = "master"
-      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/privkey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTA.public_dns}\""
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
+      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTA.public_dns}\""
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
       ansible_python_interpreter="/usr/bin/python3"
       proxy = "${aws_instance.BASTIONHOSTA.private_ip}"
   }
@@ -163,8 +162,8 @@ resource "ansible_host" "CONSUL002" {
   vars = {
       ansible_user = "ubuntu"
       role = "slave"
-      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/privkey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTA.public_dns}\""
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
+      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTA.public_dns}\""
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
       ansible_python_interpreter="/usr/bin/python3"
       proxy = "${aws_instance.BASTIONHOSTA.private_ip}"
   }
@@ -176,8 +175,8 @@ resource "ansible_host" "CONSUL003" {
   vars = {
       ansible_user = "ubuntu"
       role = "slave"
-      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/privkey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTB.public_dns}\""
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
+      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTB.public_dns}\""
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
       ansible_python_interpreter="/usr/bin/python3"
       proxy = "${aws_instance.BASTIONHOSTB.private_ip}"
   }
@@ -188,8 +187,8 @@ resource "ansible_host" "PGBOUNCER001" {
   groups = ["pgbouncer"]
   vars = {
       ansible_user = "ubuntu"
-      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/privkey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTB.public_dns}\""
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
+      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTB.public_dns}\""
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
       ansible_python_interpreter="/usr/bin/python3"
       proxy = "${aws_instance.BASTIONHOSTB.private_ip}"
   }
@@ -201,8 +200,8 @@ resource "ansible_host" "GITALY001" {
   vars = {
       ansible_user = "ubuntu"
       role = "master"
-      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/privkey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTA.public_dns}\""
-      ansible_ssh_private_key_file="/tmp/privkey.pem"
+      ansible_ssh_common_args= " -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -i /tmp/mykey.pem -W %h:%p -q ubuntu@${aws_instance.BASTIONHOSTA.public_dns}\""
+      ansible_ssh_private_key_file="/tmp/mykey.pem"
       ansible_python_interpreter="/usr/bin/python3"
       proxy = "${aws_instance.BASTIONHOSTA.private_ip}"
       subnet = "${aws_subnet.pub-web-az-a.cidr_block}"
