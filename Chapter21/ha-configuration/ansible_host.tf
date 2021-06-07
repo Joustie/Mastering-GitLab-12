@@ -119,7 +119,7 @@ resource "ansible_host" "SIDEKIQ004" {
 
 resource "ansible_host" "MONITORING001" {
   inventory_hostname = "${aws_instance.MONITORING_A.private_dns}"
-  groups = ["monitoring-dashboard"]
+  groups = ["monitoring"]
   vars = {
       ansible_user = "ubuntu"
       role = "slave"

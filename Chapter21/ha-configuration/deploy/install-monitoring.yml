@@ -1,6 +1,6 @@
 ---
 - name : Configure grafana servers
-  hosts: monitoring-dashboard
+  hosts: monitoring
   become: yes
   become_user: root
   vars:
