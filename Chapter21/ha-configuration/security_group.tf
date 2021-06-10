@@ -17,6 +17,14 @@ resource "aws_security_group" "SG-loadbalancer" {
         description = "Allow incoming HTTPS traffic from anywhere"
     }
 
+    ingress {
+        from_port = 9090
+        to_port = 9090
+        protocol = "TCP"
+        cidr_blocks = ["0.0.0.0/0"]
+        description = "Allow incoming Prometheus traffic from anywhere"
+    }
+
     egress {
         from_port = 80
         to_port = 80
@@ -30,6 +38,14 @@ resource "aws_security_group" "SG-loadbalancer" {
         protocol = "TCP"
         security_groups = ["${aws_security_group.SG-frontendservers.id}"]
     }
+
+    egress {
+        from_port = 9090
+        to_port = 9090
+        protocol = "TCP"
+        security_groups = ["${aws_security_group.SG-frontendservers.id}"]
+    }
+
 
     tags = {
         Name = "SG-loadbalancers"
@@ -134,6 +150,16 @@ resource "aws_security_group_rule" "lbhttpsaccess" {
     description = "Allow Squid proxy access from loadbalancers"
 }
 
+resource "aws_security_group_rule" "lbpromaccess" {
+    security_group_id = "${aws_security_group.SG-frontendservers.id}"
+    type = "ingress"
+    from_port = 9090
+    to_port = 9090
+    protocol = "TCP"
+    source_security_group_id = "${aws_security_group.SG-loadbalancer.id}"
+    description = "Allow access to Prometheus from loadbalancers"
+}
+
 resource "aws_security_group_rule" "webproxyaccess" {
     security_group_id = "${aws_security_group.SG-bastionhosts.id}"
     type = "ingress"
@@ -167,6 +193,47 @@ resource "aws_security_group" "SG-backendservers" {
     }
 
     ingress {
+        from_port = 8300
+        to_port = 8300
+        protocol = "TCP"
+        security_groups = ["${aws_security_group.SG-frontendservers.id}"]
+        description = "Allow incoming Consul traffic from frontend servers"
+    }
+
+    ingress {
+        from_port = 8301
+        to_port = 8301
+        protocol = "TCP"
+        security_groups = ["${aws_security_group.SG-frontendservers.id}"]
+        description = "Allow incoming Consul traffic from frontend servers"
+    }
+
+    ingress {
+        from_port = 8301
+        to_port = 8301
+        protocol = "UDP"
+        security_groups = ["${aws_security_group.SG-frontendservers.id}"]
+        description = "Allow incoming Consul traffic from frontend servers"
+    }
+
+    ingress {
+        from_port = 8302
+        to_port = 8302
+        protocol = "TCP"
+        security_groups = ["${aws_security_group.SG-frontendservers.id}"]
+        description = "Allow incoming Consul traffic from frontend servers"
+    }
+
+    ingress {
+        from_port = 8302
+        to_port = 8302
+        protocol = "UDP"
+        security_groups = ["${aws_security_group.SG-frontendservers.id}"]
+        description = "Allow incoming Consul traffic from frontend servers"
+    }
+
+
+    ingress {
        from_port = 0
        to_port = 0
        protocol = -1
@@ -180,7 +247,7 @@ resource "aws_security_group" "SG-backendservers" {
         security_groups = ["${aws_security_group.SG-bastionhosts.id}"]
         description = "Allow incoming SSH traffic from bastion hosts"
     }
-    
+
     ingress {
         from_port = -1
         to_port = -1
@@ -195,7 +262,7 @@ resource "aws_security_group" "SG-backendservers" {
         protocol = -1
         self = true
     }
-    
+
     egress {
         from_port = 3128
         to_port = 3128
