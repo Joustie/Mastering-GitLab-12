@@ -4,7 +4,6 @@ external_url 'http://{{ hostvars[groups['lb'][0]]['inventory_hostname'] }}'
 # Disable all other services
 alertmanager['enable'] = false
 gitaly['enable'] = false
-gitlab_exporter['enable'] = false
 gitlab_workhorse['enable'] = false
 nginx['enable'] = true
 postgres_exporter['enable'] = false
